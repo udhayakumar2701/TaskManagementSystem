@@ -6,9 +6,12 @@ import lombok.Data;
 
 import javax.persistence.*;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Data
 @Table(name="task")
+@Component
 public class database {
     @Id
    @Column(name="id")
@@ -125,19 +128,6 @@ public class database {
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
-      @Override
-    public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
-            ", firstName='" + getFirstName() + "'" +
-            ", lastName='" + getLastName() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", date='" + getDate() + "'" +
-            ", phoneNo='" + getPhoneNo() + "'" +
-            ", gender='" + getGender() + "'" +
-            ", user='" + getUser() + "'" +
-            ", password='" + getPassword() + "'" +
-            "}";
-    }
+     
     
 }

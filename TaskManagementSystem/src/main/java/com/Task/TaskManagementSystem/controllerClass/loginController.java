@@ -4,18 +4,29 @@ import java.util.List;
 import java.util.Random;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.Task.TaskManagementSystem.databaseClass.database;
+import com.Task.TaskManagementSystem.databaseClass.userSession;
 import com.Task.TaskManagementSystem.serverClass.server;
 
 @Controller
+@SessionAttributes("user")
 public class loginController {
+
+
+
+
+  @Autowired
+private userSession usersession;
+
 
   server service;
   database db = new database();
@@ -32,7 +43,14 @@ public class loginController {
 
   int count = 0;
 
-  database user;
+  public database user;
+
+  @GetMapping("/log")
+  public String Login() {
+      return "login";
+  }
+  
+
 
   @GetMapping("/forgot")
   public String Forgot(Model model) {
@@ -47,9 +65,13 @@ public class loginController {
     return "register";
   }
 
-  @PostMapping("/login")
-  public String loginCheck(Model model, @RequestParam("user") String username,
-      @RequestParam("password") String password) {
+
+  // @PostMapping("/login")
+  // public String loginCheck(Model model, @RequestParam("user") String username,
+  //     @RequestParam("password") String password,@ModelAttribute("user") database user) {
+     @PostMapping("/login")
+    public String loginCheck(Model model, @RequestParam("user") String username,
+        @RequestParam("password") String password) {
 
     user = service.findUser(username);
     if (user == null) {
@@ -66,12 +88,18 @@ public class loginController {
         return "login";
       }
     }
-     List<database> arr = service.findAll();
-        for (database d : arr) {
-            System.out.println(d.getUser());
-        }
+ 
+    usersession.setUser(user);
 
-        model.addAttribute("users", arr);
+    //  List<database> arr = service.findAll();
+    //     for (database d : arr) {
+    //         System.out.println(d.getUser());
+    //     }
+      
+    //     model.addAttribute("userData", user);
+
+         model.addAttribute("users", user);
+
         return "home";
    // return "home";
 
@@ -140,5 +168,8 @@ public class loginController {
     model.addAttribute("userNull", "Password changed sucessfully plz Login");
     return "login";
   }
+
+
+ 
 
 }

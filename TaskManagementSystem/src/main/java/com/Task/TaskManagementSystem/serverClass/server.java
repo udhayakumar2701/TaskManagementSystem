@@ -10,12 +10,17 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.Task.TaskManagementSystem.databaseClass.database;
+import com.Task.TaskManagementSystem.databaseClass.taskTODO;
 import com.Task.TaskManagementSystem.repoClass.repo;
+import com.Task.TaskManagementSystem.repoClass.repoTask;
 
 @Service
 public class server {
     @Autowired
     repo reposistory;
+
+    @Autowired
+    repoTask repoTask;
     
     public database  findUser(String username){
         return reposistory.findByemail(username);
@@ -41,6 +46,19 @@ public class server {
     }
     public List<database> findAll() {
        return  reposistory.findAll();
+    }
+    public void saveTask(taskTODO db) {
+        repoTask.save(db);
+    }
+    
+    public List<taskTODO> taskFindAll(int userId) {
+        return  repoTask.findByuserId(userId);
+    }
+    public void delete(int id) {
+        repoTask.deleteById(id);
+    }
+    public taskTODO findbyid(int id) {
+      return  repoTask.findById(id);
     }
 
    
