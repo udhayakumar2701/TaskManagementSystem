@@ -13,6 +13,6 @@ public interface repo extends JpaRepository<database,Integer> {
      database findByemail(String username);
 
      List<database> findAll();
-
+     
 
 }

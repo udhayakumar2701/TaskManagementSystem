@@ -44,7 +44,9 @@ public class server {
         message.setReplyTo("no-reply@example.com");
         javaMailSender.send(message);
     }
+
     public List<database> findAll() {
+        
        return  reposistory.findAll();
     }
     public void saveTask(taskTODO db) {

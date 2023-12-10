@@ -1,5 +1,7 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,46 +9,206 @@
     <style>
         /* Add your styles here */
         .rounder {
-          border-radius: 50%;
+            border-radius: 50%;
         }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-          crossorigin="anonymous">
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-            crossorigin="anonymous"></script>
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
     <!-- <link rel="icon" class="border border-3 " th:href="@{/Time management.gif}"> -->
     <link rel="icon" class="rounder border border-3 " th:href="@{/diagram.png}" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
 </head>
-<body>
-    
-    <h2>User List</h2>
 
-    <div class="container">
-        <table class="table table-bordered w-50">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Gender</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Iterate over the list of users and display their details -->
-                <tr th:each="user : ${users}">
-                    <td th:text="${user.id}"></td>
-                    <td th:text="${user.getUser()}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td th:text="${user.gender}"></td>
-                </tr>
-            </tbody>
-        </table>
-    
+<body class="wh-100">
+    <!-- Bootstrap Spinner for Loading -->
+    <!-- <div class="d-flex justify-content-center align-items-center" id="loadingSpinner" style="height: 100vh;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div> -->
+
+    <div id="loadingSpinner" class="spinner-border text-primary" role="status"
+        style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <span class="visually-hidden">Loading...</span>
     </div>
-    
-    
+
+    <!-- Your existing HTML code (hidden during loading) -->
+    <div id="content" style="display: none;">
+
+        <div id="taskList">
+            <div class="row">
+
+                <div class="p-3 d-flex  bg-info-subtle text-center p-2 justify-content-between mx-2">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">=</button>
+
+                    <div class="d-flex align-items-center">
+                        <h2>
+                            Task Management
+                        </h2>
+                    </div>
+
+                    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+                        id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Offcanvas
+                                with body scrolling</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+
+                            <div th:if="${users}" class="text-center alert alert-info">
+                                <a th:href="@{/logout}">Logout</a>
+                            </div>
+                            <div th:unless="${users}" class="text-center alert alert-info">
+                                <a th:href="@{/login}">Login</a>
+                            </div>
+                            <div class="text-center alert alert-info">
+                                <a th:href="@{/profile}">Profile</a>
+                            </div>
+                            <div th:if="${us    } ">
+                                <div>
+                                    <p th:text="${users.user}"></p>
+                                    <p th:text="${users.email}"></p>
+                                </div>
+                           
+
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="pe-3" id="timePlaceholder">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="justify-content-center align-items-center d-flex">
+
+                <div class="container col-5 m-5 ">
+                    <form th:action="@{/addTask}" method="post">
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text bg-success " id="addon-wrapping">@</span>
+                            <input type="text" class="form-control" placeholder="Task to Add" aria-label="Username"
+                                name="taskToAdd" aria-describedby="addon-wrapping" required>
+                        </div>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text bg-success " id="addon-wrapping">@</span>
+                            <input type="date" class="form-control" placeholder="Due Date" aria-label="Username"
+                                name="dueDate" aria-describedby="addon-wrapping">
+                        </div>
+                        <div class="text-center m-1 ">
+                            <button type="submit" class="btn btn-success">Add</button>
+                            <a class="btn btn-success" th:href="@{/show}">show</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class=" d-flex justify-content-center  align-items-center ">
+                <div th:if="${users}  and ${show}">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+
+                                <th>Task</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>completed</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Iterate over the list of users and display their details -->
+                            <tr th:each="user : ${userTask}">
+
+                                <td th:text="${user.getTask()}"></td>
+                                <td th:text="${user.getDate()}"></td>
+                                <td th:text="${user.getStatus()}"></td>
+                                <td>
+                                    <a class="btn btn-success"
+                                        th:href="@{/completeTask(id=${user.getId})}">completed</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger" th:href="@{/deleteTask(id=${user.getId})}">delete</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <script>
+        // Show loader while the page is loading
+        $(document).ready(function () {
+            $('#loadingSpinner').delay(200).fadeOut('slow', function () {
+                // Show the content once the loader is hidden
+                $('#content').fadeIn();
+            });
+        });
+
+        function updateIndianTime() {
+            // Fetch the time from the server and update the placeholder
+            fetch('/getTime')  // Replace '/getTime' with the actual endpoint in your Spring controller
+                .then(response => response.text())
+                .then(time => {
+                    const date = new Date("2000-01-01 " + time);
+                    const twelveHourFormat = date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+                    document.getElementById('timePlaceholder').innerText = twelveHourFormat;
+                });
+        }
+
+        // Update the time every second
+        setInterval(updateIndianTime, 1000);
+
+        // Call the function initially to set the initial time
+        updateIndianTime();
+    </script>
+
+
+
 </body>
+
 </html>

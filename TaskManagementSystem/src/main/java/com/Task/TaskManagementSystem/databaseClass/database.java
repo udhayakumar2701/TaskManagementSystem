@@ -40,6 +40,10 @@ public class database {
     @Column(name = "password")
     String password;
 
+
+    @Column(name="profile")
+    String profile;
+
     public database() {
         
         this.firstName ="";
