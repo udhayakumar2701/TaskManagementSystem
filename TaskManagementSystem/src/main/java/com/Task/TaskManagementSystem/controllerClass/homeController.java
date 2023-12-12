@@ -10,6 +10,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 import java.nio.file.Path;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,27 +58,27 @@ public static String upload = System.getProperty("user.dir") + "\\TaskManagement
          
     
 //this program is used to encode the image then only the image is displayed in the run time 
-    public String imageEncode(String imageName) {
-	try {
-		String profilePictureUrl = "\\src\\main\\resources\\static\\"+imageName;
-        String profilePicture = "/src/main/resources/static/" + imageName;
+    // public String imageEncode(String imageName) {
+	// try {
+	// 	String profilePictureUrl = "\\src\\main\\resources\\static\\"+imageName;
+    //     String profilePicture = "/src/main/resources/static/" + imageName;
 
 	
-      File f = new File(profilePicture);
-        FileInputStream fin = new FileInputStream(f);
-        byte imagebytearray[] = new byte[(int)f.length()];
-        fin.read(imagebytearray);
-        String imagetobase64 = Base64.getEncoder().encodeToString(imagebytearray);
+    //   File f = new File(profilePicture);
+    //     FileInputStream fin = new FileInputStream(f);
+    //     byte imagebytearray[] = new byte[(int)f.length()];
+    //     fin.read(imagebytearray);
+    //     String imagetobase64 = Base64.getEncoder().encodeToString(imagebytearray);
 		
-   	return imagetobase64;}
-   	catch(Exception e) {
-   		System.out.println("sdsfdsfsdfdsfdsfs--------------------------------- "+ e);
-        return "";
-   		}
+   	// return imagetobase64;}
+   	// catch(Exception e) {
+   	// 	System.out.println("sdsfdsfsdfdsfdsfs--------------------------------- "+ e);
+    //     return "";
+   	// 	}
 	
 	
 	
-}
+// }
 
 
     @GetMapping("/profile")
@@ -87,9 +88,13 @@ public static String upload = System.getProperty("user.dir") + "\\TaskManagement
         return "login";
 
          userSession.setUser(service.findUser(userSession.getUser().getEmail()));
+        //   model.addAttribute("user", data);
+        //     model.addAttribute("profiles", data.getProfile());
         model.addAttribute("profiles", (userSession.getUser().getProfile()));
         model.addAttribute("userObj", userSession.getUser());
          model.addAttribute("user", userSession.getUser());
+         model.addAttribute("totalTasksCompleted", service.countByStatusAndId("completed",userSession.getUser().getId()));
+         System.out.println( userSession.getUser().hashCode());
         System.out.println("in profile");
         return "profile";
 
@@ -225,26 +230,32 @@ public String addTask(@RequestParam("taskToAdd") String taskToAdd,
 
  @PostMapping("/uploadImage")
 public String uploadImage(@RequestParam("userImage") MultipartFile file, Model model) {
-    user = userSession.getUser();
-    database data=user;
-    if (user == null) {
+    // database user = new database();
+    database data=userSession.getUser();
+    if (data == null) {
         return "login";
     }
         try {
+            data=userSession.getUser();
            // it used to get the image and store in data base
             //StringBuilder filenames = new StringBuilder();
+            
             String filename = data.getId() + file.getOriginalFilename().substring(file.getOriginalFilename().length() - 4);
             Path fileNameAndpath = Paths.get(upload, filename);
             Files.write(fileNameAndpath, file.getBytes());
             System.out.println(upload+"---------------------------------------");
             // data.setStudname(name);
             data.setProfile(filename);
+            
             service.saveData(data);
             
+           // System.out.println(data.hashCode() +" ---------------------------"+(data=service.findUser(data.getEmail())).hashCode());
+
+             
             //setAttributes(model);
-            model.addAttribute("user",user);
-            model.addAttribute("profiles", user.getProfile());
-            return "home";
+            model.addAttribute("user",data);
+            model.addAttribute("profiles", data.getProfile());
+            return "redirect:/profile";
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return e.getMessage();

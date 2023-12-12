@@ -11,4 +11,5 @@ public interface repoTask  extends JpaRepository<taskTODO,Integer> {
     List<taskTODO> findByuserId(int userId);
     
     taskTODO findById(int id);
+    long countByStatusAndUserId(String status, int userId);
 }

@@ -2,51 +2,48 @@ package com.Task.TaskManagementSystem.databaseClass;
 
 import lombok.Data;
 
-
-
 import javax.persistence.*;
 
 import org.springframework.stereotype.Component;
 
 @Entity
 @Data
-@Table(name="task")
+@Table(name = "task")
 @Component
 public class database {
     @Id
-   @Column(name="id")
-   @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     int id;
 
-    @Column(name="firstName")
+    @Column(name = "firstName")
     String firstName;
 
-    @Column(name="lastName")
+    @Column(name = "lastName")
     String lastName;
-    @Column(name="email")
+    @Column(name = "email")
     String email;
-    @Column(name="Date")
+    @Column(name = "Date")
     String date;
 
-    @Column(name="phoneNo")
+    @Column(name = "phoneNo")
     String phoneNo;
 
-    @Column(name="Gender")
+    @Column(name = "Gender")
     String gender;
 
-    @Column(name="user")
+    @Column(name = "user")
     String user;
 
     @Column(name = "password")
     String password;
 
-
-    @Column(name="profile")
+    @Column(name = "profile")
     String profile;
 
     public database() {
-        
-        this.firstName ="";
+
+        this.firstName = "";
         this.lastName = "";
         this.email = "";
         this.date = "";
@@ -84,16 +81,12 @@ public class database {
         this.email = email;
     }
 
-   
-
-   
-
     public String getGender() {
         return this.gender;
     }
 
     public void setGender(String gender) {
-    
+
         this.gender = gender;
     }
 
@@ -112,8 +105,6 @@ public class database {
     public void setPassword(String password) {
         this.password = password;
     }
-   
-
 
     public String getDate() {
         return this.date;
@@ -123,8 +114,6 @@ public class database {
         this.date = date;
     }
 
- 
-
     public String getPhoneNo() {
         return this.phoneNo;
     }
@@ -132,6 +121,18 @@ public class database {
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
-     
-    
+
+    public void set(database db) {
+        db.id = this.id;
+        db.firstName = this.firstName;
+        db.lastName = this.lastName;
+        db.email = this.email;
+        db.date = this.date;
+        db.phoneNo = this.phoneNo;
+        db.gender = this.gender;
+        db.user = this.user;
+        db.password = this.password;
+        db.profile = this.profile;
+    }
+
 }

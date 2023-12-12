@@ -62,6 +62,9 @@ public class server {
     public taskTODO findbyid(int id) {
       return  repoTask.findById(id);
     }
-
+   
+    public Object countByStatusAndId(String string,int  id) {
+        return repoTask.countByStatusAndUserId(string,id);
+    }
    
 }
