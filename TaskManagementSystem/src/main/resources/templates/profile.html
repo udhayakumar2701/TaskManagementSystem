@@ -26,8 +26,12 @@
         }
     </style>
 </head>
-<body class="d-flex justify-content-center align-items-center bg-body-secondary ">
+<body  class=" bg-body-secondary ">
+    <a th:href="@{/}" class="btn-close btn  "></a>
     
+    
+
+    <div class="d-flex justify-content-center align-items-center bg-body-secondary">
 <!-- Modal -->
 <form th:action="@{/uploadImage}"  method="post"  enctype="multipart/form-data">      
 
@@ -164,7 +168,7 @@
       </div>
     </div>
   </div>
-
+</div>
 
 </body>
 

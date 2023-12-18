@@ -1,33 +1,31 @@
 package com.Task.TaskManagementSystem.controllerClass;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.OutputStream;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Base64;
+
 import java.util.List;
-import java.util.UUID;
+
 import java.nio.file.Path;
-import org.apache.commons.io.FilenameUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.Task.TaskManagementSystem.databaseClass.database;
 import com.Task.TaskManagementSystem.databaseClass.taskTODO;
 import com.Task.TaskManagementSystem.databaseClass.userSession;
-import com.Task.TaskManagementSystem.repoClass.repoTask;
+
 import com.Task.TaskManagementSystem.serverClass.server;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -54,31 +52,6 @@ public static String upload = System.getProperty("user.dir") + "\\TaskManagement
       
     }
 
-    
-         
-    
-//this program is used to encode the image then only the image is displayed in the run time 
-    // public String imageEncode(String imageName) {
-	// try {
-	// 	String profilePictureUrl = "\\src\\main\\resources\\static\\"+imageName;
-    //     String profilePicture = "/src/main/resources/static/" + imageName;
-
-	
-    //   File f = new File(profilePicture);
-    //     FileInputStream fin = new FileInputStream(f);
-    //     byte imagebytearray[] = new byte[(int)f.length()];
-    //     fin.read(imagebytearray);
-    //     String imagetobase64 = Base64.getEncoder().encodeToString(imagebytearray);
-		
-   	// return imagetobase64;}
-   	// catch(Exception e) {
-   	// 	System.out.println("sdsfdsfsdfdsfdsfs--------------------------------- "+ e);
-    //     return "";
-   	// 	}
-	
-	
-	
-// }
 
 
     @GetMapping("/profile")
@@ -91,6 +64,7 @@ public static String upload = System.getProperty("user.dir") + "\\TaskManagement
         //   model.addAttribute("user", data);
         //     model.addAttribute("profiles", data.getProfile());
         model.addAttribute("profiles", (userSession.getUser().getProfile()));
+        System.out.println(userSession.getUser().getProfile()+"--------------------------------------------------------------");
         model.addAttribute("userObj", userSession.getUser());
          model.addAttribute("user", userSession.getUser());
          model.addAttribute("totalTasksCompleted", service.countByStatusAndId("completed",userSession.getUser().getId()));
@@ -241,7 +215,9 @@ public String uploadImage(@RequestParam("userImage") MultipartFile file, Model m
             //StringBuilder filenames = new StringBuilder();
             
             String filename = data.getId() + file.getOriginalFilename().substring(file.getOriginalFilename().length() - 4);
+            System.out.println("filename:"+filename);
             Path fileNameAndpath = Paths.get(upload, filename);
+            System.out.println("fileNameAndpath :"+fileNameAndpath);
             Files.write(fileNameAndpath, file.getBytes());
             System.out.println(upload+"---------------------------------------");
             // data.setStudname(name);
@@ -266,6 +242,8 @@ public String uploadImage(@RequestParam("userImage") MultipartFile file, Model m
     @PostMapping("/changeDetials")
     public String changeDetails(@ModelAttribute("userObj") database obj) {
         //TODO: process POST request
+        if(userSession.getUser()==null)
+        return "login";
        
         System.out.println(obj);
         obj.setId(userSession.getUser().getId());

@@ -56,8 +56,7 @@
                     <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
                         id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
                         <div class="offcanvas-header">
-                            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Offcanvas
-                                with body scrolling</h5>
+                            <h5 class="offcanvas-title" id="offcanvasScrollingLabel" >Setting </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                                 aria-label="Close"></button>
                         </div>
@@ -141,7 +140,7 @@
                     </form>
                 </div>
             </div>
-            <div class=" d-flex justify-content-center  align-items-center ">
+            <div class=" d-flex justify-content-center  align-items-center " th:fragment= "show">
                 <div th:if="${users}  and ${show}">
                     <table class="table table-bordered">
                         <thead>
@@ -156,17 +155,17 @@
                         </thead>
                         <tbody>
                             <!-- Iterate over the list of users and display their details -->
-                            <tr th:each="user : ${userTask}">
+                            <tr th:each="Task : ${userTask}">
 
-                                <td th:text="${user.getTask()}"></td>
-                                <td th:text="${user.getDate()}"></td>
-                                <td th:text="${user.getStatus()}"></td>
+                                <td th:text="${Task.getTask()}"></td>
+                                <td th:text="${Task.getDate()}"></td>
+                                <td th:text="${Task.getStatus()}"></td>
                                 <td>
                                     <a class="btn btn-success"
-                                        th:href="@{/completeTask(id=${user.getId})}">completed</a>
+                                        th:href="@{/completeTask(id=${Task.getId})}">completed</a>
                                 </td>
                                 <td>
-                                    <a class="btn btn-danger" th:href="@{/deleteTask(id=${user.getId})}">delete</a>
+                                    <a class="btn btn-danger" th:href="@{/deleteTask(id=${Task.getId})}">delete</a>
                                 </td>
                             </tr>
                         </tbody>

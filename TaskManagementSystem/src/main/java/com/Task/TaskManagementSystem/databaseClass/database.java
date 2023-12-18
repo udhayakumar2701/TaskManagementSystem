@@ -47,10 +47,11 @@ public class database {
         this.lastName = "";
         this.email = "";
         this.date = "";
-        this.phoneNo = "91";
+        this.phoneNo = "+91";
         this.gender = "";
         this.user = "";
         this.password = "";
+        this.profile="default-user-profile-picture_hvoncb.png";
     }
 
     public int getId() {
